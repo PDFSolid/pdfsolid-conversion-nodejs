@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDFSolid Node.js API: Interfaces</title>
+<link href="node_api.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div id="top">
+  <div id="titlearea"><div id="projectname">PDFSolid Node.js API<span id="projectnumber">1.1.0</span></div></div>
+  <div id="main-nav">
+    <a href="index.html">Main Page</a>
+    <a href="pages.html">Related Pages</a>
+    <a href="module_pdfsolidconversion.html">Modules</a>
+    <a class="active" href="interfaces.html">Interfaces</a>
+    <a href="functions.html">Functions</a>
+    <a href="enums.html">Enumerations</a>
+    <a href="error_codes.html">Error Codes</a>
+  </div>
+</div>
+<div class="layout">
+  <aside id="side-nav">
+    <div id="nav-tree">
+      <h2>Node.js API</h2>
+      <h3>Interfaces</h3>
+      <ul>
+        <li><a href="#convert-options">ConvertOptions</a></li>
+        <li><a href="#convert-callback">ConvertCallback</a></li>
+      </ul>
+    </div>
+  </aside>
+  <main id="doc-content">
+    <div class="header"><div class="title">Interfaces</div></div>
+    <div class="contents">
+      <h2 id="convert-options">ConvertOptions</h2>
+      <p><code>ConvertOptions</code> is a plain JavaScript object. Missing fields use native addon defaults.</p>
+      <table>
+        <thead><tr><th>Field</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>enableAiLayout</code></td><td><code>boolean</code></td><td><code>true</code></td><td>Enable AI layout analysis.</td></tr>
+          <tr><td><code>enableAiTableRecognition</code></td><td><code>boolean</code></td><td><code>true</code></td><td>Enable AI table recognition.</td></tr>
+          <tr><td><code>containImage</code></td><td><code>boolean</code></td><td><code>true</code></td><td>Include images when OCR is disabled.</td></tr>
+          <tr><td><code>containPageBackgroundImage</code></td><td><code>boolean</code></td><td><code>true</code></td><td>Include page background images when OCR is enabled.</td></tr>
+          <tr><td><code>jsonContainTable</code></td><td><code>boolean</code></td><td><code>true</code></td><td>Include table data in JSON output.</td></tr>
+          <tr><td><code>containAnnotation</code></td><td><code>boolean</code></td><td><code>true</code></td><td>Include annotations in converted output.</td></tr>
+          <tr><td><code>excelAllContent</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Write all PDF content to XLSX.</td></tr>
+          <tr><td><code>excelCsvFormat</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Save Excel output in CSV format.</td></tr>
+          <tr><td><code>enableOcr</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Enable OCR.</td></tr>
+          <tr><td><code>transparentText</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Make text transparent in output documents.</td></tr>
+          <tr><td><code>txtTableFormat</code></td><td><code>boolean</code></td><td><code>true</code></td><td>Format table content in TXT output.</td></tr>
+          <tr><td><code>imagePathEnhance</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Enhance image path handling.</td></tr>
+          <tr><td><code>formulaToImage</code></td><td><code>boolean</code></td><td><code>true</code></td><td>Convert formulas to images.</td></tr>
+          <tr><td><code>autoCreateFolder</code></td><td><code>boolean</code></td><td><code>true</code></td><td>Automatically create output folders.</td></tr>
+          <tr><td><code>outputDocumentPerPage</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Output one document per page.</td></tr>
+          <tr><td><code>imageScaling</code></td><td><code>number</code></td><td><code>1.0</code></td><td>Image scaling factor.</td></tr>
+          <tr><td><code>pageLayoutMode</code></td><td><code>number</code></td><td><code>1</code></td><td>Page layout mode. See <a href="enums.html#page-layout-mode">PageLayoutMode</a>.</td></tr>
+          <tr><td><code>excelWorksheetOption</code></td><td><code>number</code></td><td><code>0</code></td><td>Excel worksheet output mode. See <a href="enums.html#excel-worksheet-option">ExcelWorksheetOption</a>.</td></tr>
+          <tr><td><code>htmlOption</code></td><td><code>number</code></td><td><code>0</code></td><td>HTML output mode. See <a href="enums.html#html-option">HtmlOption</a>.</td></tr>
+          <tr><td><code>ocrOption</code></td><td><code>number</code></td><td><code>3</code></td><td>OCR recognition mode. See <a href="enums.html#ocr-option">OCROption</a>.</td></tr>
+          <tr><td><code>imageColorMode</code></td><td><code>number</code></td><td><code>0</code></td><td>Image color mode. See <a href="enums.html#image-color-mode">ImageColorMode</a>.</td></tr>
+          <tr><td><code>imageType</code></td><td><code>number</code></td><td><code>0</code></td><td>Image output type. See <a href="enums.html#image-type">ImageType</a>.</td></tr>
+          <tr><td><code>fontName</code></td><td><code>string</code></td><td><code>""</code></td><td>Font name used by conversion.</td></tr>
+          <tr><td><code>pageRanges</code></td><td><code>string</code></td><td><code>""</code></td><td>Pages to convert. Empty means all pages.</td></tr>
+          <tr><td><code>languages</code></td><td><code>number[]</code></td><td><code>[]</code></td><td>OCR language values.</td></tr>
+        </tbody>
+      </table>
+      <h2 id="convert-callback">ConvertCallback</h2>
+      <table>
+        <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>onProgress</code></td><td><code>(currentPage: number, totalPage: number) =&gt; void</code></td><td>Called by native conversion code to report progress.</td></tr>
+          <tr><td><code>isCancelled</code></td><td><code>() =&gt; boolean</code></td><td>Return <code>true</code> to request cancellation.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>
+</body>
+</html>

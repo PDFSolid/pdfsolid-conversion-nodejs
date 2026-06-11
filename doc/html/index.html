@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDFSolid Node.js API: Main Page</title>
+<link href="node_api.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div id="top">
+  <div id="titlearea">
+    <div id="projectname">PDFSolid Node.js API<span id="projectnumber">1.1.0</span></div>
+  </div>
+  <div id="main-nav">
+    <a class="active" href="index.html">Main Page</a>
+    <a href="pages.html">Related Pages</a>
+    <a href="module_pdfsolidconversion.html">Modules</a>
+    <a href="interfaces.html">Interfaces</a>
+    <a href="functions.html">Functions</a>
+    <a href="enums.html">Enumerations</a>
+    <a href="error_codes.html">Error Codes</a>
+  </div>
+</div>
+<div class="layout">
+  <aside id="side-nav">
+    <div id="nav-tree">
+      <h2>Node.js API</h2>
+      <h3>Main Page</h3>
+      <ul>
+        <li class="current"><a href="index.html">Overview</a></li>
+        <li><a href="#basic-usage">Basic Usage</a></li>
+      </ul>
+      <h3>Reference</h3>
+      <ul>
+        <li><a href="module_pdfsolidconversion.html">Module</a></li>
+        <li><a href="functions.html">Functions</a></li>
+        <li><a href="interfaces.html">Interfaces</a></li>
+        <li><a href="enums.html">Enumerations</a></li>
+        <li><a href="error_codes.html">Error Codes</a></li>
+        <li><a href="runtime_notes.html">Runtime Notes</a></li>
+      </ul>
+    </div>
+  </aside>
+  <main id="doc-content">
+    <div class="header"><div class="title">PDFSolid Conversion Node.js API Documentation</div></div>
+    <div class="contents">
+      <p id="overview">This API reference documents the Node.js binding for PDFSolid Conversion SDK. The package is loaded with <code>require(&quot;pdfsolidconversion&quot;)</code> and exposes a thin JavaScript wrapper over a Node-API native addon.</p>
+      <p>The Node.js SDK supports Linux x86_64 and Windows x86_64. Public types are available from <code>lib/index.d.ts</code>.</p>
+
+      <h2>Documentation Structure</h2>
+      <table>
+        <thead><tr><th>Section</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><a href="module_pdfsolidconversion.html">Modules</a></td><td>Package entry point and exported module-level values.</td></tr>
+          <tr><td><a href="functions.html">Functions</a></td><td>Lifecycle, utility, and conversion entry points.</td></tr>
+          <tr><td><a href="interfaces.html">Interfaces</a></td><td><code>ConvertOptions</code> and <code>ConvertCallback</code> object shapes.</td></tr>
+          <tr><td><a href="enums.html">Enumerations</a></td><td>Numeric values accepted by conversion options.</td></tr>
+          <tr><td><a href="error_codes.html">Error Codes</a></td><td>SDK result codes returned by public APIs.</td></tr>
+          <tr><td><a href="runtime_notes.html">Runtime Notes</a></td><td>Platform and concurrency notes for production use.</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="basic-usage">Basic Usage</h2>
+      <pre><code>const sdk = require(&quot;pdfsolidconversion&quot;);
+
+const licenseCode = sdk.licenseVerify(&quot;YOUR_LICENSE&quot;, &quot;&quot;, &quot;com.example.app&quot;);
+if (licenseCode !== 0) {
+  throw new Error(`license verification failed: ${licenseCode}`);
+}
+
+sdk.initialize();
+try {
+  sdk.setLogger(false, true);
+  console.log(sdk.getVersion());
+
+  const result = sdk.startPDFToWord(
+    &quot;/path/to/input.pdf&quot;,
+    &quot;&quot;,
+    &quot;/path/to/output.docx&quot;,
+    {
+      enableOcr: false,
+      transparentText: true,
+      pageRanges: &quot;1-3&quot;,
+      languages: [1]
+    },
+    {
+      onProgress(currentPage, totalPage) {
+        console.log(`progress: ${currentPage}/${totalPage}`);
+      },
+      isCancelled() {
+        return false;
+      }
+    }
+  );
+
+  if (result !== 0) {
+    throw new Error(`conversion failed: ${result}`);
+  }
+} finally {
+  sdk.release();
+}</code></pre>
+    </div>
+  </main>
+</div>
+</body>
+</html>

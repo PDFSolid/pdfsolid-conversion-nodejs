@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDFSolid Node.js API: Functions</title>
+<link href="node_api.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div id="top">
+  <div id="titlearea"><div id="projectname">PDFSolid Node.js API<span id="projectnumber">1.1.0</span></div></div>
+  <div id="main-nav">
+    <a href="index.html">Main Page</a>
+    <a href="pages.html">Related Pages</a>
+    <a href="module_pdfsolidconversion.html">Modules</a>
+    <a href="interfaces.html">Interfaces</a>
+    <a class="active" href="functions.html">Functions</a>
+    <a href="enums.html">Enumerations</a>
+    <a href="error_codes.html">Error Codes</a>
+  </div>
+</div>
+<div class="layout">
+  <aside id="side-nav">
+    <div id="nav-tree">
+      <h2>Node.js API</h2>
+      <h3>Functions</h3>
+      <ul>
+        <li><a href="#lifecycle">Lifecycle and Utility</a></li>
+        <li><a href="#conversion">Conversion</a></li>
+      </ul>
+    </div>
+  </aside>
+  <main id="doc-content">
+    <div class="header"><div class="title">Functions</div></div>
+    <div class="contents">
+      <h2 id="lifecycle">Lifecycle and Utility Functions</h2>
+      <ul>
+        <li><code>licenseVerify(license: string, deviceId?: string, appId?: string): number</code></li>
+        <li><code>initialize(resourcePath?: string): void</code></li>
+        <li><code>setLogger(enableInfo: boolean, enableWarning: boolean): void</code></li>
+        <li><code>setDocumentAIModel(modelPath: string, gpuId?: number): number</code></li>
+        <li><code>releaseDocumentAIModel(): void</code></li>
+        <li><code>setDocumentAIModelCount(layoutModelCount: number, tableModelCount: number): void</code></li>
+        <li><code>getPageCount(filePath: string, password?: string): number</code></li>
+        <li><code>getRemainingPageQuota(): number</code></li>
+        <li><code>getVersion(): string</code></li>
+        <li><code>release(): void</code></li>
+      </ul>
+      <h2 id="conversion">Conversion Functions</h2>
+      <p>All conversion entry points are synchronous and return a numeric SDK result code. <code>0</code> means success.</p>
+      <pre><code>startPDFToXxx(filePath, password, outputPath, options, callback)</code></pre>
+      <ul>
+        <li><code>startPDFToWord(filePath, password, outputPath, options?, callback?): number</code></li>
+        <li><code>startPDFToRtf(filePath, password, outputPath, options?, callback?): number</code></li>
+        <li><code>startPDFToExcel(filePath, password, outputPath, options?, callback?): number</code></li>
+        <li><code>startPDFToPpt(filePath, password, outputPath, options?, callback?): number</code></li>
+        <li><code>startPDFToHtml(filePath, password, outputPath, options?, callback?): number</code></li>
+        <li><code>startPDFToImage(filePath, password, outputPath, options?, callback?): number</code></li>
+        <li><code>startPDFToSearchablePDF(filePath, password, outputPath, options?, callback?): number</code></li>
+        <li><code>startPDFToTxt(filePath, password, outputPath, options?, callback?): number</code></li>
+        <li><code>startPDFToJson(filePath, password, outputPath, options?, callback?): number</code></li>
+        <li><code>startPDFToMarkdown(filePath, password, outputPath, options?, callback?): number</code></li>
+        <li><code>startPDFToOfd(filePath, password, outputPath, options?, callback?): number</code></li>
+      </ul>
+    </div>
+  </main>
+</div>
+</body>
+</html>
