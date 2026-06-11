@@ -1,4 +1,4 @@
-# 1. Overview
+﻿# 1. Overview
 
 PDFSolid Conversion SDK is a high-performance library designed for extracting and transforming the data within your PDF files, such as text, images, tables, links, and annotations, into various file formats. The Conversion SDK retains the original document layout and the properties of the file data, helping you build a reliable document conversion workflow in Node.js applications.
 
@@ -59,7 +59,7 @@ The current Node.js SDK package supports Linux x64.
 
 ## 1.3 License & Trial
 
-The PDFSolid Conversion SDK is a commercial SDK that requires a license to grant developers the right to develop and distribute their applications. In development mode, each license is only valid for one device ID. PDFSolid provides flexible licensing models. Please contact [our marketing team](mailto:support@pdfsolid.com) for more information. Even if you have a license, it is prohibited to distribute any documents, sample code, or source code of the PDFSolid Conversion SDK to any third parties.
+The PDFSolid Conversion SDK is a commercial SDK that requires a license to grant developers the right to develop and distribute their applications. In development mode, each license is only valid for one device ID. PDFSolid provides flexible licensing models. Please contact [our marketing team](mailto:sales@pdfsolid.com) for more information. Even if you have a license, it is prohibited to distribute any documents, sample code, or source code of the PDFSolid Conversion SDK to any third parties.
 
 If you do not have a license, please contact the PDFSolid Team at sales@pdfsolid.com to obtain a trial license for PDFSolid Conversion SDK.
 
@@ -1255,8 +1255,9 @@ Thanks for your interest in PDFSolid Conversion SDK, the easy-to-use and powerfu
 
 ### Contact Information
 
-- Home link: [https://www.pdfsolid.com](https://www.pdfsolid.com/)
-- Email: [support@pdfsolid.com](mailto:support@pdfsolid.com)
+- Website: [https://www.pdfsolid.com](https://www.pdfsolid.com/)
+- Sales: [sales@pdfsolid.com](mailto:sales@pdfsolid.com)
+- Support: [support@pdfsolid.com](mailto:support@pdfsolid.com)
 
 Thanks,
 
