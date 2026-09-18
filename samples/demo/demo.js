@@ -346,7 +346,12 @@ function runConversionSuite(options) {
       transparentText: true,
       languages: [OCRLanguage.ENGLISH],
     });
-    runConversion("pdf to ofd", sdk.startPDFToOfd, wordPdf, path.join(outputDir, "pdf.ofd"), boxLayoutOptions);
+    runConversion("pdf to ofd", sdk.startPDFToOfd, wordPdf, path.join(outputDir, "pdf.ofd"), {
+      ...boxLayoutOptions,
+      enableOcr: true,
+      transparentText: true,
+      languages: [OCRLanguage.ENGLISH],
+    });
 
     console.log("all conversion tasks finished");
   } finally {
