@@ -1,10 +1,11 @@
 # PDFSolid Conversion SDK for Node.js
 
-High-performance Node.js SDK for converting PDF to Word, Excel, PowerPoint, HTML, Image, TXT, RTF, CSV, JSON, Markdown, Searchable PDF, and OFD with AI-powered OCR, layout analysis, and table recognition.
+High-performance Node.js SDK for converting PDF to Word, Excel, PowerPoint, HTML, Image, TXT, RTF, CSV, JSON, Markdown, Searchable PDF, and OFD with AI-powered OCR, layout analysis, and table recognition. SDK v1.3.0 also converts Word documents (`.docx`) to PDF.
 
 ## Features
 
 - **PDF to Word** (.docx) — Flow and Box layout modes
+- **Word to PDF** (.docx → .pdf) — optional page ranges and PDF bookmarks
 - **PDF to Excel** (.xlsx) — per-table, per-page, or per-document worksheet options
 - **PDF to PowerPoint** (.pptx)
 - **PDF to HTML** (.html) — single/multi-page with optional bookmark navigation
@@ -39,7 +40,8 @@ Contact [sales@pdfsolid.com](mailto:sales@pdfsolid.com) for a 30-day free trial 
 ### 2. Apply License and Initialize
 
 ```js
-const sdk = require("pdfsolid-conversion-nodejs");
+// Run from the root of the extracted Linux x64 SDK package.
+const sdk = require("./lib");
 
 const code = sdk.licenseVerify("YOUR_LICENSE_KEY", "DEVICE_ID", "com.example.app");
 if (code !== 0) {
@@ -64,6 +66,18 @@ sdk.release();
 ```
 
 ## Conversion Examples
+
+### Word (DOCX) to PDF
+
+With the bundled Linux x64 binding (`sdk`) initialized and licensed as shown above, pass a `.docx` input and a writable `.pdf` output.
+
+```js
+const status = sdk.startWordToPdf("input.docx", "output.pdf");
+```
+
+The default converts all pages without PDF bookmarks. Pass an options object as the third argument with `pageRanges` to select pages (for example, `1-2`) or `wordPdfBookmarkMode` to generate bookmarks from headings or Word bookmarks. Check the returned status before using the PDF. Status `95` (unsupported feature) means the input contains features that may affect fidelity; a PDF may still have been written.
+
+See the [Word to PDF API reference](doc/html/word_to_pdf.html) and [Node.js sample](samples/demo/demo.js).
 
 ### PDF to Excel
 

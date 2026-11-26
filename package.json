@@ -1,0 +1,16 @@
+{
+  "name": "pdfsolidconversion",
+  "version": "1.3.0",
+  "description": "Node.js bindings for the PDFSolid Conversion SDK.",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "engines": {
+    "node": ">=16"
+  }
+}

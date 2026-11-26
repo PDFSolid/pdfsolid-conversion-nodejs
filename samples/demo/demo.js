@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /*
- * Linux x86_64 sample for PdfSolid Conversion SDK for Node.js.
+ * Development sample for Conversion SDK for Node.js.
  *
  * Usage:
  *   node samples/demo/demo.js
@@ -9,8 +9,8 @@
  *   node samples/demo/demo.js --output /tmp/out --threads 2 input1.pdf input2.pdf
  *
  * Defaults:
- *   - License: samples/license.xml, or PDFSOLID_LICENSE / PDFSOLID_LICENSE_KEY.
- *   - Model: resource/models/documentai.model from this release package.
+ *   - License: resource/license/license.xml, or CONVERSION_LICENSE.
+ *   - Model: resource/models/documentai.model from this package.
  *   - Runtime: lib/.
  *   - No input PDFs: convert samples/input_files with the C demo style conversion suite.
  */
@@ -22,14 +22,12 @@ const path = require("path");
 const EXPECTED_PLATFORM = "linux";
 const PLATFORM_NAME = "Linux x86_64";
 const SAMPLE_COMMAND = "node samples/demo/demo.js";
-const RELEASE_ROOT = path.resolve(__dirname, "../..");
-const sdk = require(path.join(RELEASE_ROOT, "lib/index.js"));
+const PACKAGE_ROOT = path.resolve(__dirname, "../..");
+const sdk = require(path.join(PACKAGE_ROOT, "lib/index.js"));
 
 const SUCCESS = 0;
-// These defaults are resolved from this sample file, so running the script from
-// any working directory still uses the release package's own sample assets.
-const DEFAULT_LICENSE_PATH = path.resolve(__dirname, "../license.xml");
-const DEFAULT_MODEL_PATH = path.join(RELEASE_ROOT, "resource/models/documentai.model");
+const DEFAULT_LICENSE_PATH = path.resolve(__dirname, "../../resource/license/license.xml");
+const DEFAULT_MODEL_PATH = path.join(PACKAGE_ROOT, "resource/models/documentai.model");
 const DEFAULT_INPUT_DIR = path.resolve(__dirname, "../input_files");
 const DEFAULT_OUTPUT_DIR = path.resolve(__dirname, "../output_files");
 
@@ -67,21 +65,15 @@ function defaultLicenseOptions() {
   // Environment variables make CI and local license testing possible without
   // editing this sample file.
   return {
-    license:
-      process.env.PDFSOLID_LICENSE ||
-      process.env.PDFSOLID_LICENSE_KEY ||
-      DEFAULT_LICENSE_PATH,
-    deviceId: process.env.PDFSOLID_DEVICE_ID || "",
-    appId:
-      process.env.PDFSOLID_APP_ID ||
-      process.env.PDFSOLID_LICENSE_PACKAGE ||
-      "com.pdfsolid.conversion.demo",
-    resource: process.env.PDFSOLID_RESOURCE_PATH || "",
+    license: process.env.CONVERSION_LICENSE || DEFAULT_LICENSE_PATH,
+    deviceId: process.env.CONVERSION_DEVICE_ID || "",
+    appId: process.env.CONVERSION_APP_ID || "conversion.demo",
+    resource: process.env.CONVERSION_RESOURCE_PATH || "",
   };
 }
 
 function defaultModelPath() {
-  return process.env.PDFSOLID_MODEL_PATH || DEFAULT_MODEL_PATH;
+  return process.env.CONVERSION_MODEL_PATH || DEFAULT_MODEL_PATH;
 }
 
 function optionValue(argv, index, optionName) {
@@ -102,7 +94,7 @@ function isLicenseFilePath(license) {
 function normalizeLicenseValue(license) {
   const value = String(license || "");
   if (value.length === 0) {
-    throw new Error("License is required. Pass --license or set PDFSOLID_LICENSE.");
+    throw new Error("License is required. Pass --license or set CONVERSION_LICENSE.");
   }
   if (isLicenseFilePath(value)) {
     const resolved = path.resolve(value);
@@ -117,10 +109,7 @@ function normalizeLicenseValue(license) {
 function parseLicenseOptions(argv) {
   const licenseOptions = defaultLicenseOptions();
   const restArgs = [];
-  let appIdSpecified = Boolean(
-    process.env.PDFSOLID_APP_ID ||
-      process.env.PDFSOLID_LICENSE_PACKAGE,
-  );
+  let appIdSpecified = Boolean(process.env.CONVERSION_APP_ID);
 
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
@@ -220,35 +209,36 @@ function printUsage() {
   console.error(`Usage: ${SAMPLE_COMMAND} [options] [input1.pdf] [input2.pdf ...]
 
 Options:
-  --license KEY        License string or license XML file path. Defaults to PDFSOLID_LICENSE or samples/license.xml
-  --device-id ID       Device ID. Defaults to PDFSOLID_DEVICE_ID
-  --app-id ID          Application ID. Defaults to PDFSOLID_APP_ID
-  --resource PATH      SDK resource directory. Defaults to PDFSOLID_RESOURCE_PATH
+  --license KEY        License string or license XML file path. Defaults to CONVERSION_LICENSE or resource/license/license.xml
+  --device-id ID       Device ID. Defaults to CONVERSION_DEVICE_ID
+  --app-id ID          Application ID. Defaults to CONVERSION_APP_ID
+  --resource PATH      SDK resource directory. Defaults to CONVERSION_RESOURCE_PATH
   -o, --output DIR     Output directory. Defaults to samples/output_files
-  -m, --model PATH     DocumentAI model path. Defaults to PDFSOLID_MODEL_PATH or the packaged model
+  -m, --model PATH     DocumentAI model path. Defaults to CONVERSION_MODEL_PATH or the packaged model
   -t, --threads N      Worker process count. Default: 5
+  --suite NAME         Demo suite: all (default) or office (Word, Excel, PPT)
   -h, --help           Show help
 
 Examples:
   ${SAMPLE_COMMAND}
 
-  ${SAMPLE_COMMAND} \
+  ${SAMPLE_COMMAND} \\
     --output samples/output_files
 
-  ${SAMPLE_COMMAND} \
-    --output /tmp/pdfsolid_node_demo_out \\
+  ${SAMPLE_COMMAND} \\
+    --output /tmp/conversion_node_demo_out \\
     /path/to/input.pdf
 
-  ${SAMPLE_COMMAND} \
-    --output /tmp/pdfsolid_node_demo_out \
+  ${SAMPLE_COMMAND} \\
+    --output /tmp/conversion_node_demo_out \\
     --threads 2 \\
-    samples/input_files/word.pdf \
+    samples/input_files/word.pdf \\
     samples/input_files/excel.pdf`);
 }
 
 function parseArgs(argv) {
   const parsed = parseLicenseOptions(argv);
-  const options = { licenseOptions: parsed.licenseOptions, model: defaultModelPath(), output: DEFAULT_OUTPUT_DIR, threads: 5, inputs: [] };
+  const options = { licenseOptions: parsed.licenseOptions, model: defaultModelPath(), output: DEFAULT_OUTPUT_DIR, threads: 5, suite: "all", inputs: [] };
   for (let index = 0; index < parsed.restArgs.length; index += 1) {
     const arg = parsed.restArgs[index];
     if (arg === "-h" || arg === "--help") {
@@ -262,11 +252,22 @@ function parseArgs(argv) {
     } else if (arg === "-t" || arg === "--threads") {
       index += 1;
       options.threads = Number.parseInt(parsed.restArgs[index] || "5", 10);
+    } else if (arg === "--suite") {
+      options.suite = optionValue(parsed.restArgs, index++, arg);
     } else {
       options.inputs.push(arg);
     }
   }
+  if (!["all", "office"].includes(options.suite) || (options.suite === "office" && options.inputs.length)) {
+    throw new Error("--suite must be all or office; office uses the three packaged PDFs");
+  }
   return options;
+}
+
+function reportResult(step, code) {
+  if (process.env.CONVERSION_DEMO_REPORT) {
+    fs.appendFileSync(process.env.CONVERSION_DEMO_REPORT, JSON.stringify({ step, code }) + "\n");
+  }
 }
 
 function createCallback(label) {
@@ -282,6 +283,7 @@ function createCallback(label) {
 
 function runConversion(label, convert, inputPdf, outputPath, options) {
   const result = convert(inputPdf, "", outputPath, options, createCallback(label));
+  reportResult(label, result);
   console.log(`${label}: result=${result}, output=${outputPath}`);
   if (result !== SUCCESS) {
     throw new Error(`${label} failed with result=${result}`);
@@ -302,6 +304,7 @@ function runConversionSuite(options) {
     options.licenseOptions.appId,
   );
   console.log(`licenseVerify => ${licenseCode}`);
+  reportResult("license", licenseCode);
   if (licenseCode !== SUCCESS) {
     process.exit(1);
   }
@@ -314,6 +317,10 @@ function runConversionSuite(options) {
     if (options.model) {
       const modelCode = sdk.setDocumentAIModel(options.model, -1);
       console.log(`setDocumentAIModel => ${modelCode}`);
+      reportResult("model", modelCode);
+      if (modelCode !== SUCCESS) {
+        throw new Error(`DocumentAI model failed with result=${modelCode}`);
+      }
     }
 
     const baseOptions = defaultWordOptions();
@@ -326,6 +333,27 @@ function runConversionSuite(options) {
     runConversion("pdf to word", sdk.startPDFToWord, wordPdf, path.join(outputDir, "word.docx"), baseOptions);
     runConversion("pdf to excel", sdk.startPDFToExcel, excelPdf, path.join(outputDir, "excel.xlsx"), baseOptions);
     runConversion("pdf to ppt", sdk.startPDFToPpt, powerpointPdf, path.join(outputDir, "powerpoint.pptx"), baseOptions);
+
+    const docx = path.join(DEFAULT_INPUT_DIR, "word.docx");
+    const cases = [
+      ["word to pdf", "word_to_pdf.pdf", undefined],
+      ["word to pdf with options", "word_to_pdf_bookmarks.pdf",
+       {pageRanges: "1-2", wordPdfBookmarkMode: sdk.WordPdfBookmarkMode.Headings}],
+    ];
+    for (const [label, filename, wordOptions] of cases) {
+      const pdf = path.join(outputDir, filename);
+      const code = sdk.startWordToPdf(docx, pdf, wordOptions);
+      reportResult(label, code);
+      console.log(label + ": " + code);
+      if ((code !== 0 && code !== 95) || !fs.existsSync(pdf) || !fs.statSync(pdf).size)
+        throw new Error(label + " did not produce a PDF; SDK code " + code);
+      if (code === 95) console.warn("PDF produced with unsupported Word features.");
+    }
+
+    if (options.suite === "office") {
+      console.log("all office conversion tasks finished");
+      return;
+    }
 
     runConversion("pdf to csv", sdk.startPDFToExcel, excelPdf, outputDir, {
       ...baseOptions,
@@ -340,7 +368,7 @@ function runConversionSuite(options) {
     runConversion("pdf to txt", sdk.startPDFToTxt, wordPdf, path.join(outputDir, "txt.txt"), boxLayoutOptions);
     runConversion("pdf to json", sdk.startPDFToJson, wordPdf, path.join(outputDir, "json.json"), boxLayoutOptions);
     runConversion("pdf to markdown", sdk.startPDFToMarkdown, wordPdf, path.join(outputDir, "markdown.md"), boxLayoutOptions);
-    runConversion("pdf to searchable pdf", sdk.startPDFToSearchablePDF, wordPdf, path.join(outputDir, "pdf.pdf"), {
+    runConversion("pdf to searchable pdf", sdk.startPDFToSearchablePDF, excelPdf, path.join(outputDir, "pdf.pdf"), {
       ...boxLayoutOptions,
       enableOcr: true,
       transparentText: true,
@@ -352,7 +380,6 @@ function runConversionSuite(options) {
       transparentText: true,
       languages: [OCRLanguage.ENGLISH],
     });
-
     console.log("all conversion tasks finished");
   } finally {
     sdk.releaseDocumentAIModel();
@@ -363,7 +390,7 @@ function runConversionSuite(options) {
 function runWorker() {
   // Worker mode is used only when explicit input PDFs are provided. Each worker
   // initializes the native SDK in its own process and converts one PDF to Word.
-  const workerId = process.env.PDFSOLID_NODE_DEMO_WORKER_ID || "1";
+  const workerId = process.env.CONVERSION_NODE_DEMO_WORKER_ID || "1";
   const inputPdf = ensureInputPdf(process.argv[2]);
   const outputFile = process.argv[3];
   const modelPath = process.argv[4] || "";
@@ -467,12 +494,12 @@ function runMain() {
 
       const child = fork(__filename, [task.inputPdf, task.outputFile, options.model], {
         env: Object.assign({}, process.env, {
-          PDFSOLID_NODE_DEMO_WORKER: "1",
-          PDFSOLID_NODE_DEMO_WORKER_ID: String(workerId),
-          PDFSOLID_LICENSE: options.licenseOptions.license,
-          PDFSOLID_DEVICE_ID: options.licenseOptions.deviceId,
-          PDFSOLID_APP_ID: options.licenseOptions.appId,
-          PDFSOLID_RESOURCE_PATH: options.licenseOptions.resource,
+          CONVERSION_NODE_DEMO_WORKER: "1",
+          CONVERSION_NODE_DEMO_WORKER_ID: String(workerId),
+          CONVERSION_LICENSE: options.licenseOptions.license,
+          CONVERSION_DEVICE_ID: options.licenseOptions.deviceId,
+          CONVERSION_APP_ID: options.licenseOptions.appId,
+          CONVERSION_RESOURCE_PATH: options.licenseOptions.resource,
         }),
         stdio: "inherit",
       });
@@ -497,7 +524,7 @@ function runMain() {
   });
 }
 
-if (process.env.PDFSOLID_NODE_DEMO_WORKER === "1") {
+if (process.env.CONVERSION_NODE_DEMO_WORKER === "1") {
   runWorker();
 } else {
   if (process.platform !== EXPECTED_PLATFORM) {
